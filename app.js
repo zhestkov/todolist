@@ -1,18 +1,3 @@
-// должен заводиться следующим образом:
-// MODULE.init(someHtmlContainer);
-//
-// шаблонизатор:
-// function templater(html) {
-//             return function(data) {
-//                 for (var x in data) {
-//                     var re = “{{\\s?” + x + “\\s?}}“;
-//                     html = html.replace(new RegExp(re, “ig”), data[x]);
-//                 }
-//                 return html;
-//             };
-//         };
-
-
 var todoList = function() {
 
   var todo = todo || []; // ARRAY OF ITEMS(TASKS)
