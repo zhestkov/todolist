@@ -2,6 +2,13 @@ var todoList = function() {
 
   var todo = todo || []; // ARRAY OF ITEMS(TASKS)
   var done = done || []; // done tasks
+  var globTaskId;
+  var addButton;
+  var removeButton;
+  var doneButton;
+  var calendar;
+  var taskInput;
+
 
   // Task "class" definition
   function Task(id, desc, deadline) {
@@ -20,19 +27,38 @@ var todoList = function() {
     };
   }
 
+  function restoreData() {
+    let data = JSON.parse(localStorage.getItem("todo"));
+    if (data !== null) {
+      todo = data.map(a => ({...a}));
+      globTaskId = (data.length > 0) ? data[data.length-1].id : 0;
+      console.log(globTaskId);
+      console.log(todo);
+    }
 
-  var globTaskId = 0;
+  }
 
-  var addButton = document.getElementById('btnAddTask');
-  var removeButton = document.getElementById('btnRmvTask');
-  var doneButton = document.getElementById('btnDoneTask');
+  function saveData() {
+    localStorage.setItem("todo", JSON.stringify(todo));
+    // localStorage.setItem("done", JSON.stringify(done));
+  }
 
-  var calendar = document.getElementById('calendar');
-  var taskInputValue = document.getElementById('taskInput');
+  function setupList() {
+    globTaskId = 0;
 
-  addButton.addEventListener('click', addTask);
-  removeButton.addEventListener('click', removeTask);
-  doneButton.addEventListener('click', doneTask);
+    addButton = document.getElementById('btnAddTask');
+    removeButton = document.getElementById('btnRmvTask');
+    doneButton = document.getElementById('btnDoneTask');
+
+    calendar = document.getElementById('calendar');
+    taskInputValue = document.getElementById('taskInput');
+
+    addButton.addEventListener('click', addTask);
+    removeButton.addEventListener('click', removeTask);
+    doneButton.addEventListener('click', doneTask);
+    restoreData();
+    redraw();
+  }
 
 
 
@@ -72,7 +98,8 @@ var todoList = function() {
         listTomorrow.innerHTML += taskHtml;
       }
       // week
-      if (new Date(task.deadline) < weekDate) {
+      let taskDate = new Date(task.deadline);
+      if (taskDate < weekDate && taskDate >= curr) {
         listWeek.innerHTML += taskHtml;
       }
     }
@@ -83,10 +110,8 @@ var todoList = function() {
             "<input type=\"checkbox\" class=\"cboxes\" value=\"\"/>" +
             d.desc + "</label></div></li>";
       listDone.innerHTML += taskHtml;
-
-
     }
-
+    saveData();
   }
 
 
@@ -139,14 +164,12 @@ var todoList = function() {
   }
 
   function init() {
-
+    setupList();
   }
+  init();
   window.todoList = todoList;
 
   return {
       init : init,
-      todo : todo,
-      getFormatDate: getFormatDate
-
   }
 }();
