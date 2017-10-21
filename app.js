@@ -162,14 +162,14 @@ var todoList = (function(paste) {
     });
     // interaction buttons
     container.innerHTML += templater('<div class="form-row col-md-6">' +
-      '<div class="form-group col-md-6">' +
+      '<div class="form-group col-md-12">' +
       '<button type="button" class="btn btn-primary" id="btnAddTask">{{addBtnTitle}}</button>' +
       '<button type="button" class="btn btn-primary" id="btnRmvTask">{{removeBtnTitle}}</button>' +
       '<button type="button" class="btn btn-primary" id="btnDoneTask">{{doneBtnTitle}}</button>' +
       '</div></div></form>')({
       addBtnTitle: "Add",
       removeBtnTitle: "Remove",
-      doneBtnTitle: "Done"
+      doneBtnTitle: "Mark as Done"
     });
     // contents template
     container.innerHTML += templater('<div id="content">' +
